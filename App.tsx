@@ -36,6 +36,7 @@ import Book from './src/components/Book';
 import colors from './src/theme/colors';
 import HomeScreen from './src/components/HomeScreen';
 import BookDetailsScreen from './src/components/BookDetailsScreen';
+import FavoritesScreen from './src/components/FavoritesScreen';
 //
 
 const Stack = createNativeStackNavigator();
@@ -102,6 +103,7 @@ return(
     <Stack.Navigator screenOptions={{contentStyle:{backgroundColor:'white'}, headerShadowVisible:false}}>
       <Stack.Screen name='HomeScreen' component={HomeScreen} options={{headerShown:false}}/>
       <Stack.Screen name='BookDetailsScreen' component={BookDetailsScreen} options={{title:''}} />
+      <Stack.Screen name='FavoritesScreen' component={FavoritesScreen} options={{title:'Favorites'}}/>
     </Stack.Navigator>
   </NavigationContainer>
 )

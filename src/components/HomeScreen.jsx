@@ -28,10 +28,11 @@ import {
 
 //
 
-import {fetchBooks, fetchMoreBooks} from '../services'//'./src/services';
+import {fetchBooks, fetchMoreBooks} from '../services';
 import Header from './Header';
 import BookList from './BookList';
 import Book from './Book';
+import Fab from './Fab';
 import colors from '../theme/colors';
 //
 
@@ -39,10 +40,11 @@ const HomeScreen = () => {
   const [author, setAuthor] = useState('');
   const [title, setTitle] = useState('');
   const [books, setBooks] = useState(null);
-  const numFoundRef = useRef()
-  const searchUrlRef = useRef()
-  const currentSearchRef = useRef()
+  const numFoundRef = useRef();
+  const searchUrlRef = useRef();
+  const currentSearchRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
+  const [loadMoreIsLoading, setLoadMoreIsLoading] = useState(false);
   // put colormode in redux
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
@@ -58,9 +60,9 @@ const HomeScreen = () => {
     try {
       const {data, numFound, searchUrl} = await fetchBooks({author, title});
       setBooks(data);
-      numFoundRef.current = numFound
-      searchUrlRef.current = searchUrl
-      currentSearchRef.current = {numFound:numFound, searchUrl:searchUrl}
+      numFoundRef.current = numFound;
+      searchUrlRef.current = searchUrl;
+      currentSearchRef.current = {numFound: numFound, searchUrl: searchUrl};
     } catch (e) {
       console.log(e);
     } finally {
@@ -69,29 +71,44 @@ const HomeScreen = () => {
 
     //error handling
   };
-  console.log('numFoundRef.current',numFoundRef.current)
-  console.log('searchUrl', searchUrlRef.current)
-  console.log('currentSearchRef', currentSearchRef.current)
-  const loadMoreElements = async() => {
-    console.log('in function')
-    const {numFound, searchUrl} = currentSearchRef?.current
-    if(numFound > books.length && searchUrl){
-      console.log('in if')
-    const moreData = await fetchMoreBooks({offset:books.length, searchUrl})
-    console.log({moreData})
-    setBooks([...books, ...moreData])
+  console.log('numFoundRef.current', numFoundRef.current);
+  console.log('searchUrl', searchUrlRef.current);
+  console.log('currentSearchRef', currentSearchRef.current);
+  const loadMoreElements = async () => {
+    console.log('in function');
+    const {numFound, searchUrl} = currentSearchRef?.current;
+    if (numFound > books.length && searchUrl) {
+      setLoadMoreIsLoading(true);
+      try {
+        const moreData = await fetchMoreBooks({
+          offset: books.length,
+          searchUrl,
+        });
+        console.log({moreData});
+        setBooks([...books, ...moreData]);
+        setLoadMoreIsLoading(false);
+      } catch {
+        setLoadMoreIsLoading(false);
+      }
     }
- 
-  }
-const renderContent = () => {
-  if(books === null && !isLoading){
-    return <View><Text>Welcome</Text></View>
-  }
-  if(isLoading){
-    return <View><Text>loading</Text></View>
-  }
-  return <BookList books={books} loadMoreElements={loadMoreElements}/>
-}
+  };
+  const renderContent = () => {
+    if (books === null && !isLoading) {
+      return (
+        <View>
+          <Text>Welcome</Text>
+        </View>
+      );
+    }
+    if (isLoading) {
+      return (
+        <View>
+          <Text>loading</Text>
+        </View>
+      );
+    }
+    return <BookList books={books} loadMoreElements={loadMoreElements} />;
+  };
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
@@ -105,13 +122,7 @@ const renderContent = () => {
         validSearch={title.trim().length || author.trim().length}
       />
       {renderContent()}
-      {/* {isLoading ? (
-        <View>
-          <Text>loading</Text>
-        </View>
-      ) : (
-        <BookList books={books} />
-      )} */}
+      <Fab/>
     </SafeAreaView>
   );
 };
