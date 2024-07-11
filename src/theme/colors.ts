@@ -13,5 +13,6 @@ export default {
     blue50: '#eff6ff',
     blue100: '#dbeafe',
     blue500: '#3b82f6',
+    likesRed: '#FF0000',
     error: '#cc0000',
   };

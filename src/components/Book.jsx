@@ -1,22 +1,28 @@
 import React, {useState} from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import { connect } from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import Cover from './Cover';
 import colors from '../theme/colors';
 import {useNavigation} from '@react-navigation/native';
 
-type Props = {
+import { useSelector, useDispatch } from 'react-redux';
+
+
+type OwnProps = {
   title: string,
   authors: string[],
   imageUrl: string,
   key: string,
 };
 
+
+
 const Book = ({title, authors, imageUrl, worksKey}: Props): React.FC => {
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
+ console.log({authors})
 
-  console.log({authors});
   return (
     <TouchableOpacity
       style={styles.container}
@@ -39,6 +45,7 @@ const Book = ({title, authors, imageUrl, worksKey}: Props): React.FC => {
     </TouchableOpacity>
   );
 };
+
 
 export default Book;
 

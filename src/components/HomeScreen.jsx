@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, {useState, useRef, useCallback} from 'react';
+import React, {useState, useRef, useCallback, useEffect} from 'react';
 import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
@@ -34,9 +34,12 @@ import BookList from './BookList';
 import Book from './Book';
 import Fab from './Fab';
 import colors from '../theme/colors';
+import { useSelector, useDispatch } from 'react-redux';
+import { colormode, updateColormode } from '../store/colormode';
 //
 
 const HomeScreen = () => {
+    const currentColormode = useSelector(colormode)
   const [author, setAuthor] = useState('');
   const [title, setTitle] = useState('');
   const [books, setBooks] = useState(null);
@@ -45,12 +48,12 @@ const HomeScreen = () => {
   const currentSearchRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
   const [loadMoreIsLoading, setLoadMoreIsLoading] = useState(false);
-  // put colormode in redux
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     flex: 1,
     backgroundColor: isDarkMode ? colors.dark50 : colors.white,
   };
+  console.log('currentColormode in homescreen', currentColormode)
 
   const handleChangeAuthor = useCallback(text => setAuthor(text), []);
   const handleChangeTitle = useCallback(text => setTitle(text), []);
@@ -96,7 +99,7 @@ const HomeScreen = () => {
     if (books === null && !isLoading) {
       return (
         <View>
-          <Text>Welcome</Text>
+          <Text style={{color:currentColormode === 'dark'?'green':'blue'}}>Welcome</Text>
         </View>
       );
     }
