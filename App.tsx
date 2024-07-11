@@ -27,13 +27,18 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 //
-
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {fetchBooks, fetchMoreBooks} from './src/services';
 import Header from './src/components/Header';
 import BookList from './src/components/BookList';
 import Book from './src/components/Book';
 import colors from './src/theme/colors';
+import HomeScreen from './src/components/HomeScreen';
+import BookDetailsScreen from './src/components/BookDetailsScreen';
 //
+
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   const [author, setAuthor] = useState('');
@@ -92,103 +97,40 @@ const renderContent = () => {
   }
   return <BookList books={books} loadMoreElements={loadMoreElements}/>
 }
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <Header
-        onChangeAuthor={handleChangeAuthor}
-        onChangeTitle={handleChangeTitle}
-        onSearchBooks={handleSearchBooks}
-        validSearch={title.trim().length || author.trim().length}
-      />
-      {renderContent()}
-      {/* {isLoading ? (
-        <View>
-          <Text>loading</Text>
-        </View>
-      ) : (
-        <BookList books={books} />
-      )} */}
-    </SafeAreaView>
-  );
+return(
+  <NavigationContainer>
+    <Stack.Navigator screenOptions={{contentStyle:{backgroundColor:'white'}, headerShadowVisible:false}}>
+      <Stack.Screen name='HomeScreen' component={HomeScreen} options={{headerShown:false}}/>
+      <Stack.Screen name='BookDetailsScreen' component={BookDetailsScreen} options={{title:''}} />
+    </Stack.Navigator>
+  </NavigationContainer>
+)
+  // return (
+  //   <SafeAreaView style={backgroundStyle}>
+  //     <StatusBar
+  //       barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+  //       backgroundColor={backgroundStyle.backgroundColor}
+  //     />
+  //     <Header
+  //       onChangeAuthor={handleChangeAuthor}
+  //       onChangeTitle={handleChangeTitle}
+  //       onSearchBooks={handleSearchBooks}
+  //       validSearch={title.trim().length || author.trim().length}
+  //     />
+  //     {renderContent()}
+  //     {/* {isLoading ? (
+  //       <View>
+  //         <Text>loading</Text>
+  //       </View>
+  //     ) : (
+  //       <BookList books={books} />
+  //     )} */}
+  //   </SafeAreaView>
+  // );
 };
 
-// type SectionProps = PropsWithChildren<{
-//   title: string;
-// }>;
 
-// function Section({children, title}: SectionProps): React.JSX.Element {
-//   const isDarkMode = useColorScheme() === 'dark';
-//   return (
-//     <View style={styles.sectionContainer}>
-//       <Text
-//         style={[
-//           styles.sectionTitle,
-//           {
-//             color: isDarkMode ? Colors.white : Colors.black,
-//           },
-//         ]}>
-//         {title}
-//       </Text>
-//       <Text
-//         style={[
-//           styles.sectionDescription,
-//           {
-//             color: isDarkMode ? Colors.light : Colors.dark,
-//           },
-//         ]}>
-//         {children}
-//       </Text>
-//     </View>
-//   );
-// }
 
-// function App(): React.JSX.Element {
-//   const isDarkMode = useColorScheme() === 'dark';
-
-//   const backgroundStyle = {
-//     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-//   };
-
-//   return (
-//     <SafeAreaView style={backgroundStyle}>
-//       <StatusBar
-//         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-//         backgroundColor={backgroundStyle.backgroundColor}
-//       />
-//       <ScrollView
-//         contentInsetAdjustmentBehavior="automatic"
-//         style={backgroundStyle}>
-//           <Header/>
-//               <Button title='Press me' onPress={() => fetchBooks()}/>
-//         {/* <Header />
-
-//         <View
-//           style={{
-//             backgroundColor: isDarkMode ? Colors.black : Colors.white,
-//           }}>
-//           <Section title="Step One">
-//             Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-//             screen and then come back to see your edits.
-//           </Section>
-//           <Section title="See Your Changes">
-//             <ReloadInstructions />
-//           </Section>
-//           <Section title="Debug">
-//             <DebugInstructions />
-//           </Section>
-//           <Section title="Learn More">
-//             Read the docs to discover what to do next:
-//           </Section>
-//           <LearnMoreLinks />
-//         </View> */}
-//       </ScrollView>
-//     </SafeAreaView>
-//   );
-// }
 
 const styles = StyleSheet.create({
   sectionContainer: {

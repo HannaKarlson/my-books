@@ -1,40 +1,42 @@
 import React, {useState} from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import Cover from './Cover';
 import colors from '../theme/colors';
+import {useNavigation} from '@react-navigation/native';
 
 type Props = {
   title: string,
   authors: string[],
   imageUrl: string,
+  key: string,
 };
 
-const Book = ({title, authors, imageUrl}: Props): React.FC => {
-    const [isLoading, setIsLoading] = useState(true)
+const Book = ({title, authors, imageUrl, worksKey}: Props): React.FC => {
+  const [isLoading, setIsLoading] = useState(true);
+  const navigation = useNavigation();
 
   console.log({authors});
   return (
-    <View style={styles.container}>
-      {imageUrl ? (
-        <FastImage
-          source={{uri: imageUrl}}
-          resizeMode={FastImage.resizeMode.contain}
-          onLoad={() => setIsLoading(false)}
-          style={[styles.image, isLoading &&{backgroundColor: colors.dark500}]}
-        />
-      ) : (
-        <View style={[styles.image, {backgroundColor: colors.dark500}]} />
-      )}
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() =>
+        navigation.navigate('BookDetailsScreen', {
+          title,
+          imageUrl,
+          authors,
+          worksKey,
+        })
+      }>
+      <Cover imageUrl={imageUrl} style={styles.image} />
       <View style={styles.textContainer}>
         <Text style={styles.title} numberOfLines={3}>
           {title}
         </Text>
 
-        <Text style={styles.author}>
-          {authors && authors.join()}
-        </Text>
+        <Text style={styles.author}>{authors && authors.join()}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

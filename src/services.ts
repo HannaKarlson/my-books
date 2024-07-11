@@ -66,3 +66,13 @@ export const fetchMoreBooks = async ({offset, searchUrl}) => {
     console.log(e);
   }
 };
+
+export const fetchBookDetails = async(worksKey) => {
+try{
+const response = await axios.get(`https://openlibrary.org/${worksKey}`)
+return response.data
+}
+catch(e){
+
+}
+}

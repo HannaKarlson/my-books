@@ -18,6 +18,7 @@ const BookList = ({books, loadMoreElements}) => {
           title={item.title}
           authors={item.authorNames}
           imageUrl={item.imageUrl}
+          worksKey={item.key}
         />
       )}
     />
