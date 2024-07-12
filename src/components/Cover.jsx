@@ -3,12 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import colors from '../theme/colors';
 
-type Props = {
-  imageUrl: string | null;
-  style: Object; //change to style object
-};
-
-const Cover = ({imageUrl, style}: Props) => {
+const Cover = ({imageUrl, style}) => {
   const [isLoading, setIsLoading] = useState(false);
   if (imageUrl) {
     return (

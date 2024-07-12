@@ -5,7 +5,7 @@ import {faBook} from '@fortawesome/free-solid-svg-icons';
 import AppInput from './AppInput';
 import SearchButton from './SearchButton';
 
-const Header: React.JSX.Element = ({
+const Header = ({
   onChangeTitle,
   onChangeAuthor,
   onSearchBooks,

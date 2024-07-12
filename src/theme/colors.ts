@@ -24,7 +24,6 @@ export const getThemeColors = (
 ): {
   iconColor: string;
   textColor: string;
-  backgroundColor: string;
   buttonColor: string;
 } => {
   if (colormode === 'light') {

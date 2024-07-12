@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
-import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useSelector} from 'react-redux';
-import FastImage from 'react-native-fast-image';
 import {selectColormode} from '../store/colormode';
 import Cover from './Cover';
 import colors, {getThemeColors} from '../theme/colors';
@@ -12,7 +11,6 @@ const Book = ({title, authors, imageUrl, worksKey}) => {
   const isDarkMode = colormode === 'dark';
 
   const {textColor} = getThemeColors(colormode);
-  const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
   console.log({authors});
 

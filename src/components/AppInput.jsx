@@ -1,28 +1,16 @@
+import React from 'react';
 import {TextInput, View, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {selectColormode} from '../store/colormode';
-import colors, {getThemeColors} from '../theme/colors';
-// import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-// import {ThemeContext} from '../contexts/ThemeContext';
-// import {getThemeColors} from '../utils';
-// import colors from '../theme/colors';
+import {getThemeColors} from '../theme/colors';
 
 const AppInput = ({icon, /*error, */ ...props}) => {
-  //   const colorMode = useContext(ThemeContext);
-  //   const {iconColor, buttonColor, text} = getThemeColors(colorMode);
-  //const currentColormode = useSelector(colormode)
   const {iconColor, buttonColor} = getThemeColors(useSelector(selectColormode));
   return (
     <View
       testID="app-input"
-      style={[styles.container, {backgroundColor: buttonColor}]}
-      /* style={[
-        styles.container,
-        {backgroundColor: buttonColor},
-        error && styles.error,
-      ]}*/
-    >
+      style={[styles.container, {backgroundColor: buttonColor}]}>
       {icon && <FontAwesomeIcon icon={icon} color={iconColor} />}
       <TextInput
         {...props}
@@ -46,7 +34,6 @@ const styles = StyleSheet.create({
     marginRight: 5,
     borderWidth: 1,
     borderColor: 'transparent',
-    // backgroundColor:colors.dark800
   },
   input: {
     marginHorizontal: 5,
