@@ -32,6 +32,7 @@ const App = () => {
       <Stack.Navigator
         screenOptions={{
           headerTintColor: isDarkMode ? colors.white : colors.dark50,
+          headerBackTitleVisible: false,
           headerStyle: {
             backgroundColor: isDarkMode ? colors.dark50 : colors.white,
           },

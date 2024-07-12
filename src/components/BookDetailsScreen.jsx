@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     paddingHorizontal: 15,
+    paddingBottom: 30,
   },
   coverContainer: {
     width: '100%',

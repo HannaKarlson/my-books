@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import AppText from './AppText';
+import books from '../../assets/books.json';
+import AnimationView from './AnimationView';
 
 const WelcomeView = () => {
   return (
@@ -10,6 +12,7 @@ const WelcomeView = () => {
         Add title and/or author to search the Open Library for books. Tap the
         heart icon in the book details page to add it to favorites.
       </AppText>
+      <AnimationView animation={books} />
     </View>
   );
 };
@@ -22,5 +25,6 @@ const styles = StyleSheet.create({
   },
   text: {
     marginTop: 10,
+    marginBottom: '20%',
   },
 });

@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 50,
+    marginTop: '50%',
   },
   text: {
     marginTop: 20,

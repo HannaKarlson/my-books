@@ -28,14 +28,14 @@ const Book = ({title, authors, imageUrl, worksKey}) => {
       }>
       <Cover imageUrl={imageUrl} style={styles.image} />
       <View style={styles.textContainer}>
-        <AppText header numberOfLines={3}>
+        <AppText header isTruncated numberOfLines={3}>
           {title}
         </AppText>
 
         <AppText
           style={{color: isDarkMode ? colors.dark600 : colors.dark300}}
           numberOfLines={3}>
-          {authors && authors.join()}
+          {authors && authors.join(', ')}
         </AppText>
       </View>
     </TouchableOpacity>

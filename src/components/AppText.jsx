@@ -9,6 +9,7 @@ const AppText = ({children, header, style, ...props}) => {
     useSelector(selectColormode) === 'dark' ? colors.white : colors.dark50;
   return (
     <Text
+      {...props}
       style={[{color: textColor}, header ? styles.header : styles.text, style]}>
       {children}
     </Text>
