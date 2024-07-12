@@ -4,6 +4,7 @@ import {fetchBooks, fetchMoreBooks} from '../services';
 import Header from './Header';
 import BookList from './BookList';
 import Fab from './Fab';
+import LoadingSkeleton from './LoadingSkeleton';
 import colors from '../theme/colors';
 import {useSelector} from 'react-redux';
 import {selectColormode} from '../store/colormode';
@@ -77,11 +78,7 @@ const HomeScreen = () => {
       );
     }
     if (isLoading) {
-      return (
-        <View>
-          <Text>loading</Text>
-        </View>
-      );
+      return <LoadingSkeleton />;
     }
 
     return (

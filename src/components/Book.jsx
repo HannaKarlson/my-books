@@ -12,7 +12,6 @@ const Book = ({title, authors, imageUrl, worksKey}) => {
 
   const {textColor} = getThemeColors(colormode);
   const navigation = useNavigation();
-  console.log({authors});
 
   return (
     <TouchableOpacity
@@ -48,7 +47,7 @@ const Book = ({title, authors, imageUrl, worksKey}) => {
 
 export default Book;
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
