@@ -3,14 +3,18 @@ import {TextInput, View, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {selectColormode} from '../store/colormode';
-import {getThemeColors} from '../theme/colors';
+import colors, {getThemeColors} from '../theme/colors';
 
-const AppInput = ({icon, /*error, */ ...props}) => {
+const AppInput = ({icon, error, ...props}) => {
   const {iconColor, buttonColor} = getThemeColors(useSelector(selectColormode));
   return (
     <View
       testID="app-input"
-      style={[styles.container, {backgroundColor: buttonColor}]}>
+      style={[
+        styles.container,
+        {backgroundColor: buttonColor},
+        error && {borderColor: colors.error},
+      ]}>
       {icon && <FontAwesomeIcon icon={icon} color={iconColor} />}
       <TextInput
         {...props}

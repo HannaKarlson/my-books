@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   View,
-  Text,
   StyleSheet,
   Dimensions,
   TouchableOpacity,
@@ -11,11 +10,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHeart} from '@fortawesome/free-solid-svg-icons';
 import Cover from './Cover';
+import AppText from './AppText';
 import {fetchBookDetails} from '../services';
 import {addFavorite, selectFavorites, removeFavorite} from '../store/favorites';
 import {selectColormode} from '../store/colormode';
-import {headerStyle, textStyle} from '../theme/styles';
-import colors, {getThemeColors} from '../theme/colors';
+import colors from '../theme/colors';
 
 const imageWidth = Dimensions.get('window').width * 0.5;
 
@@ -24,7 +23,6 @@ const BookDetailsScreen = ({route}) => {
   const {authors, title, imageUrl, worksKey} = route.params;
   const favorites = useSelector(selectFavorites);
   const colormode = useSelector(selectColormode);
-  const {textColor} = getThemeColors(colormode);
   const isFavorite =
     favorites.findIndex(favorite => favorite.worksKey === worksKey) !== -1;
   const getIconColor = () => {
@@ -64,16 +62,15 @@ const BookDetailsScreen = ({route}) => {
     } else {
       dispatch(removeFavorite(worksKey));
     }
-    console.log('this is log', {authors, title, imageUrl, worksKey});
   };
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text numberOfLines={5} style={[headerStyle, {color: textColor}]}>
+      <AppText header numberOfLines={5}>
         {title}
-      </Text>
-      <Text style={[textStyle, styles.description]}>{`by ${
+      </AppText>
+      <AppText style={styles.description}>{`by ${
         authors && authors.join()
-      }`}</Text>
+      }`}</AppText>
       <View style={styles.coverContainer}>
         <Cover imageUrl={imageUrl} style={styles.cover} />
         <TouchableOpacity
@@ -82,7 +79,7 @@ const BookDetailsScreen = ({route}) => {
           <FontAwesomeIcon icon={faHeart} size={28} color={getIconColor()} />
         </TouchableOpacity>
       </View>
-      <Text style={[textStyle, styles.description]}>{description}</Text>
+      <AppText style={styles.description}>{description}</AppText>
     </ScrollView>
   );
 };

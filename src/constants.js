@@ -1,1 +1,10 @@
 export const BASE_URL = 'https://openlibrary.org/search.json?';
+export const FORBIDDEN_CHARS = /[*+#&]/;
+export const FORBIDDEN_CHARS_ERROR = 'Invalid character';
+export const BAD_REQUEST_ERROR = 'Bad Request';
+export const PERMISSION_DENIED_ERROR = 'Permission denied';
+export const NOT_FOUND_ERROR = 'Not found';
+export const INTERNAL_SERVER_ERROR = 'Internal Server Error';
+export const DEFAULT_ERROR = 'Error';
+export const NETWORK_ERROR = 'Network Error';
+export const INVALID_SEARCH = 'Invalid search';

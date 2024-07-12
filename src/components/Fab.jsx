@@ -15,7 +15,7 @@ const Fab = () => {
       onPress={() => navigation.navigate('FavoritesScreen')}
       style={[
         styles.touchable,
-        {backgroundColor: isDarkMode ? colors.dark50 : colors.white},
+        {backgroundColor: isDarkMode ? colors.dark100 : colors.white},
       ]}>
       <FontAwesomeIcon icon={faHeart} size={30} color={colors.likesRed} />
     </TouchableOpacity>

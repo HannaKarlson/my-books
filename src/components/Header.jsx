@@ -10,18 +10,23 @@ const Header = ({
   onChangeAuthor,
   onSearchBooks,
   validSearch,
+  authorError,
+  titleError,
 }) => {
+  console.log({validSearch});
   return (
     <View style={styles.container}>
       <AppInput
         icon={faBook}
         placeholder="Title"
         onChangeText={text => onChangeTitle(text)}
+        error={titleError}
       />
       <AppInput
         icon={faUserPen}
         placeholder="Author"
         onChangeText={text => onChangeAuthor(text)}
+        error={authorError}
       />
       <SearchButton onPress={onSearchBooks} validSearch={validSearch} />
     </View>

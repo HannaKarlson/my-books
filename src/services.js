@@ -1,5 +1,29 @@
 import axios from 'axios';
 import {BASE_URL} from './constants';
+import {
+  BAD_REQUEST_ERROR,
+  PERMISSION_DENIED_ERROR,
+  NOT_FOUND_ERROR,
+  NETWORK_ERROR,
+  INTERNAL_SERVER_ERROR,
+  DEFAULT_ERROR,
+  INVALID_SEARCH,
+} from './constants';
+
+const switchErrorStatus = status => {
+  switch (status) {
+    case 400:
+      return BAD_REQUEST_ERROR;
+    case 403:
+      return PERMISSION_DENIED_ERROR;
+    case 404:
+      return NOT_FOUND_ERROR;
+    case 500:
+      return INTERNAL_SERVER_ERROR;
+    default:
+      return DEFAULT_ERROR;
+  }
+};
 
 export const fetchBooks = async ({author, title}) => {
   let composedUrl = '';
@@ -23,15 +47,12 @@ export const fetchBooks = async ({author, title}) => {
   }
   // if neither throw error
   else {
-    throw 'invalid search';
+    throw INVALID_SEARCH;
   }
 
   try {
     const response = await axios.get(composedUrl);
-    console.log('response', response.data.numFound);
     const numFound = response.data.numFound;
-    response.data.docs?.length &&
-      console.log('response in fetch', response.data.docs[0]);
     const mappedResult = response.data.docs.map(item => ({
       authorNames: item.author_name,
       title: item.title,
@@ -43,7 +64,11 @@ export const fetchBooks = async ({author, title}) => {
 
     return {data: mappedResult, numFound: numFound, searchUrl: composedUrl};
   } catch (e) {
-    throw 'error fetching data';
+    if (!e.response) {
+      throw NETWORK_ERROR;
+    } else {
+      throw switchErrorStatus(e.response.status);
+    }
   }
 };
 

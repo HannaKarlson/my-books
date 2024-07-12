@@ -1,13 +1,16 @@
 import React, {useState, useRef, useCallback} from 'react';
-import {SafeAreaView, StatusBar, Text, View, Keyboard} from 'react-native';
+import {SafeAreaView, StatusBar, Keyboard} from 'react-native';
 import {fetchBooks, fetchMoreBooks} from '../services';
 import Header from './Header';
 import BookList from './BookList';
 import Fab from './Fab';
 import LoadingSkeleton from './LoadingSkeleton';
+import WelcomeView from './WelcomeView';
+import ErrorView from './ErrorView';
 import colors from '../theme/colors';
 import {useSelector} from 'react-redux';
 import {selectColormode} from '../store/colormode';
+import {FORBIDDEN_CHARS, FORBIDDEN_CHARS_ERROR} from '../constants';
 
 const HomeScreen = () => {
   const colormode = useSelector(selectColormode);
@@ -29,10 +32,18 @@ const HomeScreen = () => {
   const handleChangeAuthor = useCallback(text => setAuthor(text), []);
   const handleChangeTitle = useCallback(text => setTitle(text), []);
   const handleSearchBooks = async () => {
+    setError('');
     Keyboard.dismiss();
+    if (FORBIDDEN_CHARS.test(author) || FORBIDDEN_CHARS.test(title)) {
+      return setError(FORBIDDEN_CHARS_ERROR);
+    }
+
     setIsLoading(true);
     try {
-      const {data, numFound, searchUrl} = await fetchBooks({author, title});
+      const {data, numFound, searchUrl} = await fetchBooks({
+        author,
+        title,
+      });
       setBooks(data);
       numFoundRef.current = numFound;
       searchUrlRef.current = searchUrl;
@@ -46,7 +57,6 @@ const HomeScreen = () => {
   const loadMoreElements = async () => {
     const {numFound, searchUrl} = currentSearchRef?.current;
     if (numFound > books.length && searchUrl) {
-      console.log('in second if');
       setLoadMoreIsLoading(true);
       try {
         const moreData = await fetchMoreBooks({
@@ -62,20 +72,10 @@ const HomeScreen = () => {
   };
   const renderContent = () => {
     if (error) {
-      return (
-        <View>
-          <Text>error</Text>
-        </View>
-      );
+      return <ErrorView error={error} />;
     }
     if (books === null && !isLoading) {
-      return (
-        <View>
-          <Text style={{color: colormode === 'dark' ? 'green' : 'blue'}}>
-            Welcome
-          </Text>
-        </View>
-      );
+      return <WelcomeView />;
     }
     if (isLoading) {
       return <LoadingSkeleton />;
@@ -99,7 +99,13 @@ const HomeScreen = () => {
         onChangeAuthor={handleChangeAuthor}
         onChangeTitle={handleChangeTitle}
         onSearchBooks={handleSearchBooks}
-        validSearch={title.trim().length || author.trim().length}
+        titleError={FORBIDDEN_CHARS.test(title)}
+        authorError={FORBIDDEN_CHARS.test(author)}
+        validSearch={
+          !FORBIDDEN_CHARS.test(title) &&
+          !FORBIDDEN_CHARS.test(author) &&
+          (title.trim().length || author.trim().length)
+        }
       />
       {renderContent()}
       <Fab />

@@ -1,16 +1,15 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {useSelector} from 'react-redux';
 import {selectColormode} from '../store/colormode';
 import Cover from './Cover';
-import colors, {getThemeColors} from '../theme/colors';
+import AppText from './AppText';
+import colors from '../theme/colors';
 import {useNavigation} from '@react-navigation/native';
 
 const Book = ({title, authors, imageUrl, worksKey}) => {
   const colormode = useSelector(selectColormode);
   const isDarkMode = colormode === 'dark';
-
-  const {textColor} = getThemeColors(colormode);
   const navigation = useNavigation();
 
   return (
@@ -29,17 +28,15 @@ const Book = ({title, authors, imageUrl, worksKey}) => {
       }>
       <Cover imageUrl={imageUrl} style={styles.image} />
       <View style={styles.textContainer}>
-        <Text style={[styles.title, {color: textColor}]} numberOfLines={3}>
+        <AppText header numberOfLines={3}>
           {title}
-        </Text>
+        </AppText>
 
-        <Text
-          style={[
-            styles.author,
-            {color: isDarkMode ? colors.dark600 : colors.dark300},
-          ]}>
+        <AppText
+          style={{color: isDarkMode ? colors.dark600 : colors.dark300}}
+          numberOfLines={3}>
           {authors && authors.join()}
-        </Text>
+        </AppText>
       </View>
     </TouchableOpacity>
   );
