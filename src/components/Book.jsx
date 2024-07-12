@@ -1,31 +1,27 @@
 import React, {useState} from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
-import { connect } from 'react-redux';
+import {useSelector} from 'react-redux';
 import FastImage from 'react-native-fast-image';
+import {selectColormode} from '../store/colormode';
 import Cover from './Cover';
-import colors from '../theme/colors';
+import colors, {getThemeColors} from '../theme/colors';
 import {useNavigation} from '@react-navigation/native';
 
-import { useSelector, useDispatch } from 'react-redux';
+const Book = ({title, authors, imageUrl, worksKey}) => {
+  const colormode = useSelector(selectColormode);
+  const isDarkMode = colormode === 'dark';
 
-
-type OwnProps = {
-  title: string,
-  authors: string[],
-  imageUrl: string,
-  key: string,
-};
-
-
-
-const Book = ({title, authors, imageUrl, worksKey}: Props): React.FC => {
+  const {textColor} = getThemeColors(colormode);
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
- console.log({authors})
+  console.log({authors});
 
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={[
+        styles.container,
+        {backgroundColor: isDarkMode ? colors.dark100 : colors.dark900},
+      ]}
       onPress={() =>
         navigation.navigate('BookDetailsScreen', {
           title,
@@ -36,16 +32,21 @@ const Book = ({title, authors, imageUrl, worksKey}: Props): React.FC => {
       }>
       <Cover imageUrl={imageUrl} style={styles.image} />
       <View style={styles.textContainer}>
-        <Text style={styles.title} numberOfLines={3}>
+        <Text style={[styles.title, {color: textColor}]} numberOfLines={3}>
           {title}
         </Text>
 
-        <Text style={styles.author}>{authors && authors.join()}</Text>
+        <Text
+          style={[
+            styles.author,
+            {color: isDarkMode ? colors.dark600 : colors.dark300},
+          ]}>
+          {authors && authors.join()}
+        </Text>
       </View>
     </TouchableOpacity>
   );
 };
-
 
 export default Book;
 
@@ -54,7 +55,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     height: 170,
-    backgroundColor: colors.dark900,
     padding: 10,
     marginHorizontal: 10,
   },
@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: '600',
-    color: colors.dark50,
   },
   author: {
     fontSize: 14,

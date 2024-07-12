@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native'
+import {View, Text, StyleSheet} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import colors from '../theme/colors';
 
@@ -20,18 +20,24 @@ const Cover = ({imageUrl, style}: Props) => {
         style={[style, isLoading && {backgroundColor: colors.dark500}]}
       />
     );
-  }
-  else {
-    return(
-        <View style={[style, {backgroundColor: colors.dark500, alignItems:'center', justifyContent:'center'}]}><Text style={styles.text}>No image available</Text></View> 
-    )
+  } else {
+    return (
+      <View style={[style, styles.placeholder]}>
+        <Text style={styles.text}>No image available</Text>
+      </View>
+    );
   }
 };
 
-export default Cover
+export default Cover;
 
 const styles = StyleSheet.create({
-    text:{
-color:colors.white
-    }
-})
+  text: {
+    color: colors.white,
+  },
+  placeholder: {
+    backgroundColor: colors.dark500,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

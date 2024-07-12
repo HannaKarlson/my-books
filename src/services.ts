@@ -4,7 +4,7 @@ import {BASE_URL} from './constants';
 export const fetchBooks = async ({author, title}) => {
   let composedUrl = '';
   const trimmedTitle = title.trim().replace(/ /g, '+');
-  const trimmedAuthor = author.trim();
+  const trimmedAuthor = author.trim().replace(/ /g, '+');
   // if title and author
   if (trimmedAuthor && trimmedTitle) {
     console.log('in if fetch', author, title);
@@ -25,7 +25,7 @@ export const fetchBooks = async ({author, title}) => {
   else {
     throw 'invalid search';
   }
-  // end with /books
+
   try {
     const response = await axios.get(composedUrl);
     console.log('response', response.data.numFound);
@@ -43,9 +43,7 @@ export const fetchBooks = async ({author, title}) => {
 
     return {data: mappedResult, numFound: numFound, searchUrl: composedUrl};
   } catch (e) {
-    // error 500
-    // add error handling
-    console.log(e);
+    throw 'error fetching data';
   }
 };
 
@@ -61,18 +59,14 @@ export const fetchMoreBooks = async ({offset, searchUrl}) => {
       key: item.key,
     }));
     return mappedResult;
-    console.log('in load more', mappedResult);
   } catch (e) {
     console.log(e);
   }
 };
 
-export const fetchBookDetails = async(worksKey) => {
-try{
-const response = await axios.get(`https://openlibrary.org/${worksKey}`)
-return response.data
-}
-catch(e){
-
-}
-}
+export const fetchBookDetails = async worksKey => {
+  try {
+    const response = await axios.get(`https://openlibrary.org/${worksKey}`);
+    return response.data;
+  } catch (e) {}
+};

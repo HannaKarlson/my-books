@@ -7,77 +7,82 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import { useDispatch, useSelector, UseSelector } from 'react-redux';
-import FastImage from 'react-native-fast-image';
+import {useDispatch, useSelector} from 'react-redux';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHeart} from '@fortawesome/free-solid-svg-icons';
 import Cover from './Cover';
 import {fetchBookDetails} from '../services';
-import { addFavorite, favorites, removeFavorite } from '../store/favorites';
+import {addFavorite, selectFavorites, removeFavorite} from '../store/favorites';
+import {selectColormode} from '../store/colormode';
 import {headerStyle, textStyle} from '../theme/styles';
-import colors from '../theme/colors';
+import colors, {getThemeColors} from '../theme/colors';
 
 const imageWidth = Dimensions.get('window').width * 0.5;
 
 const BookDetailsScreen = ({route}) => {
-    const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const {authors, title, imageUrl, worksKey} = route.params;
-  const currentFavorites = useSelector(favorites)
-  const isFavorite = currentFavorites.findIndex(favorite => favorite.worksKey === worksKey) !== -1
-  console.log({isFavorite})
+  const favorites = useSelector(selectFavorites);
+  const colormode = useSelector(selectColormode);
+  const {textColor} = getThemeColors(colormode);
+  const isFavorite =
+    favorites.findIndex(favorite => favorite.worksKey === worksKey) !== -1;
+  const getIconColor = () => {
+    if (isFavorite) {
+      return colors.likesRed;
+    }
+    if (colormode === 'dark') {
+      return colors.dark300;
+    }
+    return colors.dark600;
+  };
   const [details, setDetails] = useState(null);
-  const [isLoading, setIsLoading] = useState(false)
- let description = '...'
- if(details?.description?.value){
-    description = details.description.value
- }
- else if(details?.description){
-    description = details.description
- }
- else if(isLoading){
-    description = '...'
- }
- else{
-    description = 'No description available'
- }
+  const [isLoading, setIsLoading] = useState(false);
+  let description = '...';
+  if (details?.description?.value) {
+    description = details.description.value;
+  } else if (details?.description) {
+    description = details.description;
+  } else if (isLoading) {
+    description = '...';
+  } else {
+    description = 'No description available';
+  }
   useEffect(() => {
     const fetchDetails = async () => {
-        setIsLoading(true)
+      setIsLoading(true);
       const data = await fetchBookDetails(worksKey);
       setDetails(data);
-      setIsLoading(false)
+      setIsLoading(false);
     };
     fetchDetails();
-  }, []);
+  }, [worksKey]);
   console.log({details});
   const handlePressFavorite = () => {
-    if(!isFavorite){
-    dispatch(addFavorite({authors, title, imageUrl, worksKey}))}
-    else{
-        dispatch(removeFavorite(worksKey))
+    if (!isFavorite) {
+      dispatch(addFavorite({authors, title, imageUrl, worksKey}));
+    } else {
+      dispatch(removeFavorite(worksKey));
     }
-    console.log('this is log',{authors, title, imageUrl, worksKey})
-  }
+    console.log('this is log', {authors, title, imageUrl, worksKey});
+  };
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text numberOfLines={5} style={headerStyle}>
+      <Text numberOfLines={5} style={[headerStyle, {color: textColor}]}>
         {title}
       </Text>
       <Text style={[textStyle, styles.description]}>{`by ${
         authors && authors.join()
       }`}</Text>
-      <View style={{width: '100%'}}>
-        <Cover imageUrl={imageUrl} style={{height: 1.5 * imageWidth,
-            width: imageWidth,
-            alignSelf: 'center',
-            marginVertical: 20}}/>
-        <TouchableOpacity onPress={handlePressFavorite} style={{position: 'absolute', bottom: 40, right: 20}}>
-          <FontAwesomeIcon icon={faHeart} size={28} color={isFavorite?colors.likesRed:colors.dark600} />
+      <View style={styles.coverContainer}>
+        <Cover imageUrl={imageUrl} style={styles.cover} />
+        <TouchableOpacity
+          onPress={handlePressFavorite}
+          style={styles.iconButton}>
+          <FontAwesomeIcon icon={faHeart} size={28} color={getIconColor()} />
         </TouchableOpacity>
       </View>
-      <Text style={[textStyle, styles.description]}>
-        {description}
-      </Text>
+      <Text style={[textStyle, styles.description]}>{description}</Text>
     </ScrollView>
   );
 };
@@ -89,7 +94,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 15,
   },
+  coverContainer: {
+    width: '100%',
+  },
+  cover: {
+    height: 1.5 * imageWidth,
+    width: imageWidth,
+    alignSelf: 'center',
+    marginVertical: 20,
+  },
   description: {
     marginVertical: 10,
+  },
+  iconButton: {
+    position: 'absolute',
+    bottom: 40,
+    right: 20,
   },
 });

@@ -1,19 +1,27 @@
 import React from 'react';
-import {FlatList, View, ActivityIndicator} from 'react-native';
+import {FlatList, View, ActivityIndicator, StyleSheet} from 'react-native';
 import Book from './Book';
 import colors from '../theme/colors';
 
-const BookList = ({books, loadMoreElements}) => {
-  console.log('books in list', books);
+const renderFooter = loadMoreIsLoading => () => {
+  if (loadMoreIsLoading) {
+    return <ActivityIndicator color={colors.blue500} style={styles.spinner} />;
+  }
+  return null;
+};
 
+const ItemSeparatorComponent = () => <View style={styles.separator} />;
+
+const BookList = ({books, loadMoreElements, loadMoreIsLoading}) => {
+  console.log('books in list', books);
 
   return (
     <FlatList
       data={books}
       onEndReachedThreshold={0.1}
       onEndReached={() => loadMoreElements()}
-      ItemSeparatorComponent={() => <View style={{height:5}}/>}
-      ListFooterComponent={() => <ActivityIndicator color={colors.blue500} style={{padding:10}}/>}
+      ItemSeparatorComponent={ItemSeparatorComponent}
+      ListFooterComponent={renderFooter(loadMoreIsLoading)}
       keyExtractor={item => item.key}
       renderItem={({item}) => (
         <Book
@@ -28,3 +36,12 @@ const BookList = ({books, loadMoreElements}) => {
 };
 
 export default BookList;
+
+const styles = StyleSheet.create({
+  spinner: {
+    padding: 10,
+  },
+  separator: {
+    height: 5,
+  },
+});

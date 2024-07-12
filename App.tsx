@@ -41,14 +41,14 @@ import colors from './src/theme/colors';
 import HomeScreen from './src/components/HomeScreen';
 import BookDetailsScreen from './src/components/BookDetailsScreen';
 import FavoritesScreen from './src/components/FavoritesScreen';
-import {colormode,updateColormode} from './src/store/colormode';
+import {selectColormode, updateColormode} from './src/store/colormode';
 //
 const store = configureStore();
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  const dispatch = useDispatch()
-  const currentColormode = useSelector(colormode)
+  const dispatch = useDispatch();
+  const colormode = useSelector(selectColormode);
   const [author, setAuthor] = useState('');
   const [title, setTitle] = useState('');
   const [books, setBooks] = useState(null);
@@ -57,18 +57,17 @@ const App = () => {
   const currentSearchRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
   //const [deviceColormode, setDeviceColormode] = useState('light')
-  const deviceColormode = useColorScheme()
- // setDeviceColormode(useColorScheme())
-  console.log({currentColormode})
-  console.log(deviceColormode)
+  const deviceColormode = useColorScheme();
+  // setDeviceColormode(useColorScheme())
+  console.log(deviceColormode);
 
   useEffect(() => {
-
-    if(deviceColormode &&deviceColormode !== currentColormode){
-dispatch(updateColormode(deviceColormode))}
-  },[deviceColormode, currentColormode])
+    if (deviceColormode && deviceColormode !== colormode) {
+      dispatch(updateColormode(deviceColormode));
+    }
+  }, [deviceColormode, colormode]);
   // put colormode in redux
-  const isDarkMode = useColorScheme() === 'dark';
+  const isDarkMode = colormode === 'dark';
 
   const backgroundStyle = {
     flex: 1,
@@ -128,7 +127,13 @@ dispatch(updateColormode(deviceColormode))}
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          contentStyle: {backgroundColor: 'white'},
+          headerTintColor:isDarkMode?colors.white:colors.dark50,
+          headerStyle: {
+            backgroundColor: isDarkMode ? colors.dark50 : colors.white,
+          },
+          contentStyle: {
+            backgroundColor: isDarkMode ? colors.dark50 : colors.white,
+          },
           headerShadowVisible: false,
         }}>
         <Stack.Screen
