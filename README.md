@@ -14,7 +14,7 @@ git clone https://github.com/HannaKarlson/my-books.git
 ### Step 2: Install dependencies
 
 ```bash
-cd MyBooks
+cd my-books
 npm install
 ```
 
