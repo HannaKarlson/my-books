@@ -15,16 +15,22 @@ import {fetchBookDetails} from '../services';
 import {addFavorite, selectFavorites, removeFavorite} from '../store/favorites';
 import {selectColormode} from '../store/colormode';
 import colors from '../theme/colors';
+import type {RouteProp} from '@react-navigation/native';
+import type {RootStackParamList, Book} from '../types';
 
 const imageWidth = Dimensions.get('window').width * 0.5;
 
-const BookDetailsScreen = ({route}) => {
+type Props = {
+  route: RouteProp<RootStackParamList, 'BookDetailsScreen'>;
+};
+
+const BookDetailsScreen = ({route}: Props) => {
   const dispatch = useDispatch();
-  const {authors, title, imageUrl, worksKey} = route.params;
-  const favorites = useSelector(selectFavorites);
+  const {authors, title, imageUrl, key} = route.params.book;
+  const favorites: Book[] = useSelector(selectFavorites);
   const colormode = useSelector(selectColormode);
   const isFavorite =
-    favorites.findIndex(favorite => favorite.worksKey === worksKey) !== -1;
+    favorites.findIndex(favorite => favorite.key === key) !== -1;
   const getIconColor = () => {
     if (isFavorite) {
       return colors.likesRed;
@@ -34,7 +40,7 @@ const BookDetailsScreen = ({route}) => {
     }
     return colors.dark600;
   };
-  const [details, setDetails] = useState(null);
+  const [details, setDetails] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   let description = '...';
   if (details?.description?.value) {
@@ -49,17 +55,17 @@ const BookDetailsScreen = ({route}) => {
   useEffect(() => {
     const fetchDetails = async () => {
       setIsLoading(true);
-      const data = await fetchBookDetails(worksKey);
+      const data = await fetchBookDetails(key);
       setDetails(data);
       setIsLoading(false);
     };
     fetchDetails();
-  }, [worksKey]);
+  }, [key]);
   const handlePressFavorite = () => {
     if (!isFavorite) {
-      dispatch(addFavorite({authors, title, imageUrl, worksKey}));
+      dispatch(addFavorite({authors, title, imageUrl, key}));
     } else {
-      dispatch(removeFavorite(worksKey));
+      dispatch(removeFavorite(key));
     }
   };
   return (

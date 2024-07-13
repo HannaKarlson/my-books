@@ -10,16 +10,15 @@ import colors from '../theme/colors';
 import {useSelector} from 'react-redux';
 import {selectColormode} from '../store/colormode';
 import {FORBIDDEN_CHARS, FORBIDDEN_CHARS_ERROR, WELCOME} from '../constants';
+import {Book} from '../types';
 
 const HomeScreen = () => {
   const colormode = useSelector(selectColormode);
   const [author, setAuthor] = useState('');
   const [title, setTitle] = useState('');
-  const [books, setBooks] = useState(null);
-  const [error, setError] = useState();
-  const numFoundRef = useRef();
-  const searchUrlRef = useRef();
-  const currentSearchRef = useRef();
+  const [books, setBooks] = useState<Book[] | null>(null);
+  const [error, setError] = useState('');
+  const currentSearchRef = useRef({numFound: 0, searchUrl: ''});
   const [isLoading, setIsLoading] = useState(false);
   const [loadMoreIsLoading, setLoadMoreIsLoading] = useState(false);
   const isDarkMode = colormode === 'dark';
@@ -28,8 +27,8 @@ const HomeScreen = () => {
     backgroundColor: isDarkMode ? colors.dark50 : colors.white,
   };
 
-  const handleChangeAuthor = useCallback(text => setAuthor(text), []);
-  const handleChangeTitle = useCallback(text => setTitle(text), []);
+  const handleChangeAuthor = useCallback((text: string) => setAuthor(text), []);
+  const handleChangeTitle = useCallback((text: string) => setTitle(text), []);
   const handleSearchBooks = async () => {
     setError('');
     Keyboard.dismiss();
@@ -44,18 +43,18 @@ const HomeScreen = () => {
         title,
       });
       setBooks(data);
-      numFoundRef.current = numFound;
-      searchUrlRef.current = searchUrl;
       currentSearchRef.current = {numFound: numFound, searchUrl: searchUrl};
     } catch (e) {
-      setError(e);
+      if (typeof e === 'string') {
+        setError(e);
+      }
     } finally {
       setIsLoading(false);
     }
   };
   const loadMoreElements = async () => {
     const {numFound, searchUrl} = currentSearchRef?.current;
-    if (numFound > books.length && searchUrl) {
+    if (books?.length && numFound > books?.length && searchUrl) {
       setLoadMoreIsLoading(true);
       try {
         const moreData = await fetchMoreBooks({
@@ -73,20 +72,19 @@ const HomeScreen = () => {
     if (error) {
       return <InfoView info={error} />;
     }
-    if (books === null && !isLoading) {
-      return <InfoView info={WELCOME} />;
-    }
     if (isLoading) {
       return <LoadingSkeleton />;
     }
-
-    return (
-      <BookList
-        books={books}
-        loadMoreElements={loadMoreElements}
-        loadMoreIsLoading={loadMoreIsLoading}
-      />
-    );
+    if (books !== null) {
+      return (
+        <BookList
+          books={books}
+          loadMoreElements={loadMoreElements}
+          loadMoreIsLoading={loadMoreIsLoading}
+        />
+      );
+    }
+    return <InfoView info={WELCOME} />;
   };
 
   return (
@@ -101,11 +99,11 @@ const HomeScreen = () => {
         onSearchBooks={handleSearchBooks}
         titleError={FORBIDDEN_CHARS.test(title)}
         authorError={FORBIDDEN_CHARS.test(author)}
-        validSearch={
+        validSearch={Boolean(
           !FORBIDDEN_CHARS.test(title) &&
-          !FORBIDDEN_CHARS.test(author) &&
-          (title.trim().length || author.trim().length)
-        }
+            !FORBIDDEN_CHARS.test(author) &&
+            (title.trim().length || author.trim().length),
+        )}
       />
       {renderContent()}
       <Fab />

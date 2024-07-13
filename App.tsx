@@ -11,8 +11,9 @@ import HomeScreen from './src/components/HomeScreen';
 import BookDetailsScreen from './src/components/BookDetailsScreen';
 import FavoritesScreen from './src/components/FavoritesScreen';
 import {selectColormode, updateColormode} from './src/store/colormode';
+import type {RootStackParamList} from './src/types';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const App = () => {
   const dispatch = useDispatch();

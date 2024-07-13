@@ -5,12 +5,22 @@ import {selectColormode} from '../store/colormode';
 import Cover from './Cover';
 import AppText from './AppText';
 import colors from '../theme/colors';
-import {useNavigation} from '@react-navigation/native';
+import {
+  useNavigation,
+  NavigationProp,
+  ParamListBase,
+} from '@react-navigation/native';
+import type {Book as BookType} from '../types';
 
-const Book = ({title, authors, imageUrl, worksKey}) => {
+type Props = {
+  book: BookType;
+};
+
+const Book = ({book}: Props) => {
+  const {title, authors, imageUrl} = book;
   const colormode = useSelector(selectColormode);
   const isDarkMode = colormode === 'dark';
-  const navigation = useNavigation();
+  const navigation: NavigationProp<ParamListBase> = useNavigation();
   return (
     <TouchableOpacity
       style={[
@@ -19,15 +29,12 @@ const Book = ({title, authors, imageUrl, worksKey}) => {
       ]}
       onPress={() =>
         navigation.navigate('BookDetailsScreen', {
-          title,
-          imageUrl,
-          authors,
-          worksKey,
+          book,
         })
       }>
       <Cover imageUrl={imageUrl} style={styles.image} />
       <View style={styles.textContainer}>
-        <AppText header isTruncated numberOfLines={3}>
+        <AppText header numberOfLines={3}>
           {title}
         </AppText>
         <AppText

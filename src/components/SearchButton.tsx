@@ -4,10 +4,14 @@ import {useSelector} from 'react-redux';
 import {selectColormode} from '../store/colormode';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
-
 import colors, {getThemeColors} from '../theme/colors';
 
-const SearchButton = ({onPress, validSearch}) => {
+type Props = {
+  onPress: () => void;
+  validSearch: boolean;
+};
+
+const SearchButton = ({onPress, validSearch}: Props) => {
   const {iconColor, buttonColor} = getThemeColors(useSelector(selectColormode));
   return (
     <TouchableOpacity

@@ -8,7 +8,7 @@ const slice = createSlice({
       favorites.push(action.payload);
     },
     removeFavorite: (favorites, action) => {
-      return favorites.filter(favorite => favorite.worksKey !== action.payload);
+      return favorites.filter(favorite => favorite.key !== action.payload);
     },
   },
 });

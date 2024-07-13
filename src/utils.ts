@@ -1,3 +1,4 @@
+import {AnimationObject} from 'lottie-react-native';
 import {
   FORBIDDEN_CHARS_ERROR,
   NETWORK_ERROR,
@@ -13,7 +14,12 @@ import networkError from '../assets/networkError.json';
 import notFound from '../assets/notFound.json';
 import typo from '../assets/typo.json';
 
-export const getInfoDetails = info => {
+type InfoDetails = {
+  text: string;
+  animation: AnimationObject;
+};
+
+export const getInfoDetails = (info: string): InfoDetails => {
   if (info === WELCOME) {
     return {
       text: 'Add title and/or author to search the Open Library for books. Tap the heart icon in the book details page to add it to favorites.',

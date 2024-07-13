@@ -1,9 +1,14 @@
 import React, {useState, useRef, useEffect} from 'react';
 import {View, Text, StyleSheet, Animated} from 'react-native';
-import FastImage from 'react-native-fast-image';
+import FastImage, {ImageStyle} from 'react-native-fast-image';
 import colors from '../theme/colors';
 
-const Cover = ({imageUrl, style}) => {
+type Props = {
+  imageUrl: string | null;
+  style: ImageStyle;
+};
+
+const Cover = ({imageUrl, style}: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const opacityAnimation = useRef(new Animated.Value(1)).current;
   const opacityStyle = {opacity: opacityAnimation};

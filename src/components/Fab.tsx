@@ -2,14 +2,18 @@ import React from 'react';
 import {TouchableOpacity, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 import {selectColormode} from '../store/colormode';
-import {useNavigation} from '@react-navigation/native';
+import {
+  useNavigation,
+  ParamListBase,
+  NavigationProp,
+} from '@react-navigation/native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHeart} from '@fortawesome/free-solid-svg-icons/faHeart';
 import colors from '../theme/colors';
 
 const Fab = () => {
   const isDarkMode = useSelector(selectColormode) === 'dark';
-  const navigation = useNavigation();
+  const navigation: NavigationProp<ParamListBase> = useNavigation();
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('FavoritesScreen')}

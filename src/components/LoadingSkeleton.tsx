@@ -6,13 +6,23 @@ import {styles as bookStyles} from './Book';
 import {ItemSeparatorComponent} from './BookList';
 import colors from '../theme/colors';
 
+type SkeletonItem = {
+  id: string;
+};
+
 const LoadingSkeleton = () => {
   const colormode = useSelector(selectColormode);
   const isDarkMode = colormode === 'dark';
   const opacityAnimation = useRef(new Animated.Value(1)).current;
   const opacityStyle = {opacity: opacityAnimation};
 
-  const skeletonItems = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}];
+  const skeletonItems: SkeletonItem[] = [
+    {id: '1'},
+    {id: '2'},
+    {id: '3'},
+    {id: '4'},
+    {id: '5'},
+  ];
 
   useEffect(() => {
     const animateElement = () => {
@@ -40,6 +50,7 @@ const LoadingSkeleton = () => {
       keyExtractor={item => item.id}
       renderItem={({item}) => (
         <Animated.View
+          key={item.id}
           style={[
             bookStyles.container,
             {backgroundColor: isDarkMode ? colors.dark100 : colors.dark900},

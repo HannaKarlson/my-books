@@ -1,10 +1,15 @@
 import React from 'react';
 import {View, Dimensions, StyleSheet} from 'react-native';
-import LottieView from 'lottie-react-native';
+import LottieView, {AnimationObject} from 'lottie-react-native';
 
 const deviceWidth = Dimensions.get('window').width;
 
-const AnimationView = ({animation, loop}) => (
+type Props = {
+  animation: AnimationObject;
+  loop: boolean;
+};
+
+const AnimationView = ({animation, loop}: Props) => (
   <View style={styles.container}>
     <LottieView
       style={styles.lottieView}

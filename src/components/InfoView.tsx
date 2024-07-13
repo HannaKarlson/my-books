@@ -7,7 +7,11 @@ import {WELCOME} from '../constants';
 
 const dismissKeyboard = () => Keyboard.dismiss();
 
-const InfoView = ({info}) => {
+type Props = {
+  info: string;
+};
+
+const InfoView = ({info}: Props) => {
   const {text, animation} = getInfoDetails(info);
   const loop = info !== WELCOME;
   return (

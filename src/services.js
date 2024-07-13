@@ -50,7 +50,7 @@ export const fetchBooks = async ({author, title}) => {
     const response = await axios.get(composedUrl);
     const numFound = response.data.numFound;
     const mappedResult = response.data.docs.map(item => ({
-      authorNames: item.author_name,
+      authors: item.author_name,
       title: item.title,
       imageUrl: item.cover_i
         ? `https://covers.openlibrary.org/b/id/${item.cover_i}-M.jpg`
