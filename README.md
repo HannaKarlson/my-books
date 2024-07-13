@@ -48,6 +48,6 @@ Type the title and/or the author of a book in the respective input fields and pr
 
 Tap a book to see more information about it. Tapping the heart icon ❤️ in the details screen the book is added/removed from the favorites list.
 
-To display the favorites list tap the floating action button ❤️ in the main screen.
+To display the favorites list tap the floating action button ❤️ on the main screen.
 
 
