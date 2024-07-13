@@ -30,6 +30,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
+          orientation: 'portrait',
           headerTintColor: isDarkMode ? colors.white : colors.dark50,
           headerBackTitleVisible: false,
           headerStyle: {

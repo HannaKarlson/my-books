@@ -68,7 +68,7 @@ const BookDetailsScreen = ({route}) => {
         {title}
       </AppText>
       <AppText style={styles.description}>{`by ${
-        authors && authors.join()
+        authors && authors.join(', ')
       }`}</AppText>
       <View style={styles.coverContainer}>
         <Cover imageUrl={imageUrl} style={styles.cover} />
