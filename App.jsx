@@ -4,14 +4,14 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Provider} from 'react-redux';
 import {useSelector, useDispatch} from 'react-redux';
-import configureStore from './src/store/configureStore';
+import {PersistGate} from 'redux-persist/integration/react';
+import {store, persistor} from './src/store/configureStore';
 import colors from './src/theme/colors';
 import HomeScreen from './src/components/HomeScreen';
 import BookDetailsScreen from './src/components/BookDetailsScreen';
 import FavoritesScreen from './src/components/FavoritesScreen';
 import {selectColormode, updateColormode} from './src/store/colormode';
 
-const store = configureStore();
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -63,7 +63,9 @@ const App = () => {
 const ConnectedApp = () => {
   return (
     <Provider store={store}>
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
     </Provider>
   );
 };

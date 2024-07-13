@@ -88,6 +88,7 @@ const HomeScreen = () => {
       />
     );
   };
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
