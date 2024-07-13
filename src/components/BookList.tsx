@@ -27,7 +27,6 @@ const BookList = ({
   loadMoreElements,
   loadMoreIsLoading,
 }: BookListProps) => {
-  console.log({books});
   return (
     <FlatList
       contentContainerStyle={styles.contentContaier}

@@ -3,7 +3,10 @@ import {useColorScheme} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Provider} from 'react-redux';
-import {useSelector, useDispatch} from 'react-redux';
+import {
+  useAppSelector as useSelector,
+  useAppDispatch as useDispatch,
+} from './src/store/hooks';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './src/store/configureStore';
 import colors from './src/theme/colors';

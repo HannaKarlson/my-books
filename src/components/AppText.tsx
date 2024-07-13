@@ -1,6 +1,6 @@
 import React, {PropsWithChildren} from 'react';
 import {Text, StyleSheet, TextStyle, TextProps} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useAppSelector as useSelector} from '../store/hooks';
 import {selectColormode} from '../store/colormode';
 import colors from '../theme/colors';
 

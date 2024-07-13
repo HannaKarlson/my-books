@@ -7,7 +7,7 @@ import Fab from './Fab';
 import LoadingSkeleton from './LoadingSkeleton';
 import InfoView from './InfoView';
 import colors from '../theme/colors';
-import {useSelector} from 'react-redux';
+import {useAppSelector as useSelector} from '../store/hooks';
 import {selectColormode} from '../store/colormode';
 import {FORBIDDEN_CHARS, FORBIDDEN_CHARS_ERROR, WELCOME} from '../constants';
 import {Book} from '../types';

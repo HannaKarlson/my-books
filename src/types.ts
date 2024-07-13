@@ -1,6 +1,6 @@
 export type Book = {
   title: string;
-  authors: string[];
+  authors?: string[];
   imageUrl: string | null;
   key: string;
 };

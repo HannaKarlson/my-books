@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, FlatList, StyleSheet} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useAppSelector as useSelector} from '../store/hooks';
 import Book from './Book';
 import InfoView from './InfoView';
 import {selectFavorites} from '../store/favorites';

@@ -6,7 +6,10 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {
+  useAppDispatch as useDispatch,
+  useAppSelector as useSelector,
+} from '../store/hooks';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHeart} from '@fortawesome/free-solid-svg-icons';
 import Cover from './Cover';
@@ -73,9 +76,11 @@ const BookDetailsScreen = ({route}: Props) => {
       <AppText header numberOfLines={5}>
         {title}
       </AppText>
-      <AppText style={styles.description}>{`by ${
-        authors && authors.join(', ')
-      }`}</AppText>
+      {authors && (
+        <AppText style={styles.description}>{`by ${
+          authors && authors.join(', ')
+        }`}</AppText>
+      )}
       <View style={styles.coverContainer}>
         <Cover imageUrl={imageUrl} style={styles.cover} />
         <TouchableOpacity

@@ -1,6 +1,6 @@
 import React, {useRef, useEffect} from 'react';
 import {View, Animated, FlatList, StyleSheet} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useAppSelector as useSelector} from '../store/hooks';
 import {selectColormode} from '../store/colormode';
 import {styles as bookStyles} from './Book';
 import {ItemSeparatorComponent} from './BookList';

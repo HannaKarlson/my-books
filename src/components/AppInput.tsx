@@ -1,6 +1,6 @@
 import React from 'react';
 import {TextInput, View, StyleSheet} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useAppSelector as useSelector} from '../store/hooks';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import {selectColormode} from '../store/colormode';

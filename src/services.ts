@@ -10,7 +10,7 @@ import {
   INVALID_SEARCH,
 } from './constants';
 
-const switchErrorStatus = status => {
+const switchErrorStatus = (status: number): string => {
   switch (status) {
     case 400:
       return BAD_REQUEST_ERROR;
@@ -25,7 +25,13 @@ const switchErrorStatus = status => {
   }
 };
 
-export const fetchBooks = async ({author, title}) => {
+export const fetchBooks = async ({
+  author,
+  title,
+}: {
+  author: string;
+  title: string;
+}) => {
   let composedUrl = '';
   const trimmedTitle = title.trim().replace(/ /g, '+');
   const trimmedAuthor = author.trim().replace(/ /g, '+');
@@ -49,7 +55,12 @@ export const fetchBooks = async ({author, title}) => {
   try {
     const response = await axios.get(composedUrl);
     const numFound = response.data.numFound;
-    const mappedResult = response.data.docs.map(item => ({
+    const mappedResult: {
+      authors: string[];
+      title: string;
+      imageUrl: string | null;
+      key: string;
+    }[] = response.data.docs.map((item: any) => ({
       authors: item.author_name,
       title: item.title,
       imageUrl: item.cover_i
@@ -59,7 +70,7 @@ export const fetchBooks = async ({author, title}) => {
     }));
 
     return {data: mappedResult, numFound: numFound, searchUrl: composedUrl};
-  } catch (e) {
+  } catch (e: any) {
     if (!e.response) {
       throw NETWORK_ERROR;
     } else {
@@ -68,10 +79,16 @@ export const fetchBooks = async ({author, title}) => {
   }
 };
 
-export const fetchMoreBooks = async ({offset, searchUrl}) => {
+export const fetchMoreBooks = async ({
+  offset,
+  searchUrl,
+}: {
+  offset: number;
+  searchUrl: string;
+}) => {
   try {
     const response = await axios.get(`${searchUrl}&offset=${offset}`);
-    const mappedResult = response.data.docs.map(item => ({
+    const mappedResult = response.data.docs.map((item: any) => ({
       authorNames: item.author_name,
       title: item.title,
       imageUrl: item.cover_i
@@ -85,7 +102,7 @@ export const fetchMoreBooks = async ({offset, searchUrl}) => {
   }
 };
 
-export const fetchBookDetails = async worksKey => {
+export const fetchBookDetails = async (worksKey: string) => {
   try {
     const response = await axios.get(`https://openlibrary.org/${worksKey}`);
     return response.data;
