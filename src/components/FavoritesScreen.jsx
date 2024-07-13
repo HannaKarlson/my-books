@@ -1,19 +1,13 @@
 import React from 'react';
 import {View, FlatList, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
-import AppText from './AppText';
 import Book from './Book';
+import InfoView from './InfoView';
 import {selectFavorites} from '../store/favorites';
+import {EMPTY_LIST} from '../constants';
 
 const EmptyList = () => {
-  return (
-    <View style={styles.emptyListContainer}>
-      <AppText header>No favorite added</AppText>
-      <AppText style={styles.text}>
-        To add a book to favorites tap the heart icon in the book details page
-      </AppText>
-    </View>
-  );
+  return <InfoView info={EMPTY_LIST} />;
 };
 
 const ItemSeparatorComponent = () => <View style={styles.separator} />;

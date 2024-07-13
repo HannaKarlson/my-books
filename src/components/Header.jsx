@@ -13,7 +13,6 @@ const Header = ({
   authorError,
   titleError,
 }) => {
-  console.log({validSearch});
   return (
     <View style={styles.container}>
       <AppInput

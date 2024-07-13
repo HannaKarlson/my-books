@@ -8,3 +8,6 @@ export const INTERNAL_SERVER_ERROR = 'Internal Server Error';
 export const DEFAULT_ERROR = 'Error';
 export const NETWORK_ERROR = 'Network Error';
 export const INVALID_SEARCH = 'Invalid search';
+export const WELCOME = 'Welcome';
+export const NO_MATCH = 'No match found';
+export const EMPTY_LIST = 'No favorite added';

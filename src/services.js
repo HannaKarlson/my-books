@@ -31,18 +31,14 @@ export const fetchBooks = async ({author, title}) => {
   const trimmedAuthor = author.trim().replace(/ /g, '+');
   // if title and author
   if (trimmedAuthor && trimmedTitle) {
-    console.log('in if fetch', author, title);
-
     composedUrl = `${BASE_URL}title=${trimmedTitle}&author=${trimmedAuthor}&limit=10`;
   }
   //if title
   else if (trimmedTitle) {
-    console.log('we have just title');
     composedUrl = `${BASE_URL}title=${trimmedTitle}&limit=10`;
   }
   //if author
   else if (trimmedAuthor) {
-    console.log('we have just author');
     composedUrl = `${BASE_URL}author=${trimmedAuthor}&limit=10`;
   }
   // if neither throw error
@@ -84,8 +80,8 @@ export const fetchMoreBooks = async ({offset, searchUrl}) => {
       key: item.key,
     }));
     return mappedResult;
-  } catch (e) {
-    console.log(e);
+  } catch {
+    return null;
   }
 };
 

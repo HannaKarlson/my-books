@@ -11,7 +11,6 @@ const Book = ({title, authors, imageUrl, worksKey}) => {
   const colormode = useSelector(selectColormode);
   const isDarkMode = colormode === 'dark';
   const navigation = useNavigation();
-
   return (
     <TouchableOpacity
       style={[
@@ -31,7 +30,6 @@ const Book = ({title, authors, imageUrl, worksKey}) => {
         <AppText header isTruncated numberOfLines={3}>
           {title}
         </AppText>
-
         <AppText
           style={{color: isDarkMode ? colors.dark600 : colors.dark300}}
           numberOfLines={3}>

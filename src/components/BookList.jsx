@@ -1,8 +1,9 @@
 import React from 'react';
 import {FlatList, View, ActivityIndicator, StyleSheet} from 'react-native';
 import Book from './Book';
-import EmptyList from './EmptyList';
 import colors from '../theme/colors';
+import InfoView from './InfoView';
+import {NO_MATCH} from '../constants';
 
 const renderFooter = loadMoreIsLoading => () => {
   if (loadMoreIsLoading) {
@@ -12,6 +13,7 @@ const renderFooter = loadMoreIsLoading => () => {
 };
 
 const ItemSeparatorComponent = () => <View style={styles.separator} />;
+const EmptyList = () => <InfoView info={NO_MATCH} />;
 
 const BookList = ({books, loadMoreElements, loadMoreIsLoading}) => {
   return (

@@ -55,7 +55,6 @@ const BookDetailsScreen = ({route}) => {
     };
     fetchDetails();
   }, [worksKey]);
-  console.log({details});
   const handlePressFavorite = () => {
     if (!isFavorite) {
       dispatch(addFavorite({authors, title, imageUrl, worksKey}));

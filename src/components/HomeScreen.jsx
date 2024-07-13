@@ -5,12 +5,11 @@ import Header from './Header';
 import BookList from './BookList';
 import Fab from './Fab';
 import LoadingSkeleton from './LoadingSkeleton';
-import WelcomeView from './WelcomeView';
-import ErrorView from './ErrorView';
+import InfoView from './InfoView';
 import colors from '../theme/colors';
 import {useSelector} from 'react-redux';
 import {selectColormode} from '../store/colormode';
-import {FORBIDDEN_CHARS, FORBIDDEN_CHARS_ERROR} from '../constants';
+import {FORBIDDEN_CHARS, FORBIDDEN_CHARS_ERROR, WELCOME} from '../constants';
 
 const HomeScreen = () => {
   const colormode = useSelector(selectColormode);
@@ -72,10 +71,10 @@ const HomeScreen = () => {
   };
   const renderContent = () => {
     if (error) {
-      return <ErrorView error={error} />;
+      return <InfoView info={error} />;
     }
     if (books === null && !isLoading) {
-      return <WelcomeView />;
+      return <InfoView info={WELCOME} />;
     }
     if (isLoading) {
       return <LoadingSkeleton />;

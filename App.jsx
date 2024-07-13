@@ -18,7 +18,6 @@ const App = () => {
   const dispatch = useDispatch();
   const colormode = useSelector(selectColormode);
   const deviceColormode = useColorScheme();
-  console.log(deviceColormode);
 
   useEffect(() => {
     if (deviceColormode && deviceColormode !== colormode) {

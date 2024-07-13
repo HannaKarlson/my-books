@@ -6,7 +6,9 @@ import {selectColormode} from '../store/colormode';
 import colors, {getThemeColors} from '../theme/colors';
 
 const AppInput = ({icon, error, ...props}) => {
-  const {iconColor, buttonColor} = getThemeColors(useSelector(selectColormode));
+  const {iconColor, buttonColor, textColor} = getThemeColors(
+    useSelector(selectColormode),
+  );
   return (
     <View
       testID="app-input"
@@ -18,11 +20,12 @@ const AppInput = ({icon, error, ...props}) => {
       {icon && <FontAwesomeIcon icon={icon} color={iconColor} />}
       <TextInput
         {...props}
-        style={styles.input}
+        style={[styles.input, {color: textColor}]}
         placeholderTextColor={iconColor}
         showSoftInputOnFocus={true}
         autoCorrect={false}
         autoComplete="off"
+        maxLength={100}
       />
     </View>
   );
